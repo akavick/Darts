@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Darts.App", "Darts.App.csproj", "{EBF33446-4BD3-48AD-B111-7805215D552D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D0B34368-D2A8-4B61-9311-D1699FE6588E}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EBF33446-4BD3-48AD-B111-7805215D552D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBF33446-4BD3-48AD-B111-7805215D552D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBF33446-4BD3-48AD-B111-7805215D552D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBF33446-4BD3-48AD-B111-7805215D552D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B2660696-6D55-43FD-93FC-4ECB10D06636}
+	EndGlobalSection
+EndGlobal
