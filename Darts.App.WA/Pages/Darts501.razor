@@ -3,54 +3,114 @@
 
 <h1>501</h1>
 
-@if (forecasts == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
+@{
     const int sectorsCount = 20;
-    const double circleLength = Math.PI * 2;
-    const double step = circleLength / sectorsCount;
-    const double multiplier = 1;
+    const double stepDeg = 360.0 / sectorsCount;
+    const double stepRad = Math.PI * 2 / sectorsCount;
+    const double start = 0.0;
+    const double boardRadius = 500.0;
+    const double doublesOuterRadius = 480.0;
+    const double doublesInnerRadius = 430.0;
+    const double treblesOuterRadius = 320.0;
+    const double treblesInnerRadius = 270.0;
+    const double bullOuterRadius = 70.0;
+    const double bullInnerRadius = 30.0;
+    double GetChord(double radius) => radius * 2 * Math.Sin(stepRad * 0.5);
+    var distances = new[]
+    {
+        new { R = boardRadius,        C = GetChord(boardRadius) },
+        new { R = doublesOuterRadius, C = GetChord(doublesOuterRadius) }, 
+        new { R = doublesInnerRadius, C = GetChord(doublesInnerRadius) }, 
+        new { R = treblesOuterRadius, C = GetChord(treblesOuterRadius) }, 
+        new { R = treblesInnerRadius, C = GetChord(treblesInnerRadius) }, 
+        new { R = bullOuterRadius,    C = GetChord(bullOuterRadius) },
+        new { R = bullInnerRadius,    C = GetChord(bullInnerRadius) }
+    };
+    const string spiderColor = "silver";
+    const string oddColor = "white";
+    const string evenColor = "black";
+    const string oddBonusColor = "green";
+    const string evenBonusColor = "red";
+    const double spiderThickness = 2.0;
+    const double opacity = 0.8;
+}
 
-    <div class="dartsboard">
+<div class="dartsboard">
+    <svg width="100%" height="100%" viewBox="0 0 @(boardRadius * 2) @(boardRadius * 2)">
         @for (var i = 0; i < sectorsCount; i++)
         {
-            <div class="dartsboard-sector" style="transform: rotate(@(step * i)rad)">
-                @*<div class="dartsboard-segment dartsboard-segment-inner"></div>
-                <div class="dartsboard-segment dartsboard-segment-treble"></div>
-                <div class="dartsboard-segment dartsboard-segment-outer"></div>
-                <div class="dartsboard-segment dartsboard-segment-double"></div>*@
-                <svg viewBox="0 0 136 400" width="100%" height="100%">
-                    <path d="M0,0 L136,0 L75,400 L55,400z" fill="gray" opacity="0.5"/>
-                </svg>
-            </div>
+            var isOdd = (i & 1) == 1;
+
+            for (var j = 1; j < distances.Length - 2; j++)
+            {
+                var isBonus = (j & 1) == 1;
+                var od = distances[j];
+                var id = distances[j + 1];
+
+                @*<path d="M@(boardRadius - od.C * 0.5),@(boardRadius - od.R + (od.R - Math.Sqrt(od.R * od.R - od.C * od.C * 0.25)))
+                         A@(od.R) @(od.R) 0 0 1 @(boardRadius + od.C * 0.5) @(boardRadius - od.R + (od.R - Math.Sqrt(od.R * od.R - od.C * od.C * 0.25)))
+                         L@(boardRadius + id.C * 0.5),@(boardRadius - id.R + (id.R - Math.Sqrt(id.R * id.R - id.C * id.C * 0.25)))
+                         A@(id.R) @(id.R) 0 0 1 @(boardRadius + id.C * 0.5) @(boardRadius - id.R + (id.R - Math.Sqrt(id.R * id.R - id.C * id.C * 0.25)))z"
+                      fill="@(isOdd
+                                ? isBonus
+                                    ? oddBonusColor
+                                    : oddColor
+                                : isBonus
+                                    ? evenBonusColor
+                                    : evenColor)"
+                      opacity="@(opacity)"
+                      transform="rotate(@(stepDeg * i) @(boardRadius) @(boardRadius))" />*@
+
+                <path d="M@(boardRadius - od.C * 0.5),@(boardRadius - od.R + (od.R - Math.Sqrt(od.R * od.R - od.C * od.C * 0.25)))
+                         A@(od.R) @(od.R) 0 0 1 @(boardRadius + od.C * 0.5) @(boardRadius - od.R + (od.R - Math.Sqrt(od.R * od.R - od.C * od.C * 0.25)))
+                         L@(boardRadius + id.C * 0.5),@(boardRadius - id.R + (id.R - Math.Sqrt(id.R * id.R - id.C * id.C * 0.25)))
+                         A@(id.R) @(id.R) 0 0 1 @(boardRadius + id.C * 0.5) @(boardRadius - id.R + (id.R - Math.Sqrt(id.R * id.R - id.C * id.C * 0.25)))z"
+                      fill="@(isOdd
+                                ? isBonus
+                                    ? oddBonusColor
+                                    : oddColor
+                                : isBonus
+                                    ? evenBonusColor
+                                    : evenColor)"
+                      opacity="@(opacity)"
+                      transform="rotate(@(stepDeg * i) @(boardRadius) @(boardRadius))" />
+            }
+
+            <line x1="@(boardRadius)"
+                  x2="@(boardRadius)"
+                  y1="@(start)"
+                  y2="@(boardRadius - bullOuterRadius)"
+                  stroke="@(spiderColor)"
+                  fill="@(spiderColor)"
+                  stroke-width="@(spiderThickness)"
+                  transform="rotate(@(stepDeg * i + stepDeg * 0.5) @(boardRadius) @(boardRadius))" />
         }
 
-        @*<div class="dartsboard-circle bull-circle"></div>
-        <div class="dartsboard-circle quarter-circle"></div>
-        <div class="dartsboard-circle inner-circle"></div>
-        <div class="dartsboard-circle treble-circle"></div>
-        <div class="dartsboard-circle outer-circle"></div>
-        <div class="dartsboard-circle double-circle"></div>*@
-    </div>
+        <circle cx="@(boardRadius)"
+                cy="@(boardRadius)"
+                r="@(bullInnerRadius + (bullOuterRadius - bullInnerRadius) * 0.5)"
+                stroke="@(oddBonusColor)"
+                fill="transparent"
+                stroke-width="@(bullOuterRadius - bullInnerRadius)"
+                opacity="@(opacity)" />
 
-    @*<div style="width: 40px; height: 200px; background-color: gray; transform: perspective(100px) rotate3d(0,0,0,45deg)"></div>
+        <circle cx="@(boardRadius)"
+                cy="@(boardRadius)"
+                r="@(bullInnerRadius)"
+                fill="@(evenBonusColor)"
+                opacity="@(opacity)" />
 
-        <div class="dartsboard">
-            @for (var i = 0; i < sectorsCount; i++)
-            {
-                var xAngle = Math.Cos(step * i) * -multiplier;
-                var yAngle = Math.Sin(step * i) * -multiplier;
-                var zAngle = step * i;
-
-                <div class="dartsboard-sector" style="transform: perspective(100px) rotateX(@(xAngle)rad) rotateY(@(yAngle)rad) rotateZ(@(zAngle)rad)">
-
-                </div>
-            }
-        </div>*@
-}
+        @for (var j = 1; j < distances.Length; j++)
+        {
+            <circle cx="@(boardRadius)"
+                    cy="@(boardRadius)"
+                    r="@(distances[j].R)"
+                    stroke="@(spiderColor)"
+                    fill="transparent"
+                    stroke-width="@(spiderThickness)" />
+        }
+    </svg>
+</div>
 
 @code {
     private WeatherForecast[] forecasts;

@@ -118,20 +118,10 @@ app {
 }
 
 .dartsboard {
-    display: flex;
-    position: absolute;
-    left: 800px;
+    width: 1000px;
+    height: 1000px;
 }
 
-.dartsboard-sector {
-    transform-origin: 50% 120%;
-    position: absolute;
-    border: 0;
-    display: flex;
-    flex-direction: column;
-    height: 400px;
-    width: 136px;
-}
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
