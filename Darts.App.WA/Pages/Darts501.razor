@@ -32,7 +32,7 @@
                                     : EvenColor)"
                       opacity="@(Opacity)"
                       transform="rotate(@(StepDeg * i) @(BoardRadius) @(BoardRadius))"
-                      @onclick="@(() => _clickResult = sectorValue)" />
+                      @onclick="@(() => { _clickResult = sectorValue; Console.WriteLine(_clickResult); })" />
             }
         }
 
