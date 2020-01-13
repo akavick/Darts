@@ -32,7 +32,7 @@
                                     : EvenColor)"
                       opacity="@(Opacity)"
                       transform="rotate(@(StepDeg * i) @(BoardRadius) @(BoardRadius))"
-                      @onclick="@(() => { _clickResult = sectorValue; Console.WriteLine(_clickResult); })" />
+                      @onclick="@(async mea => await OnSectorClick(sectorValue))" />
             }
         }
 
@@ -119,6 +119,12 @@
     protected override async Task OnInitializedAsync()
     {
         
+    }
+    
+    public async Task OnSectorClick(int sectorValue)
+    {
+        _clickResult = sectorValue; 
+        Console.WriteLine(_clickResult);
     }
 
     //public class WeatherForecast
